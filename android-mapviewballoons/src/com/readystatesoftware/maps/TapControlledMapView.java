@@ -7,11 +7,11 @@ import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 
-import com.google.android.maps.MapView;
+import com.baidu.mapapi.MapView;
 
 public class TapControlledMapView extends MapView implements OnGestureListener {
 
-    private GestureDetector gd;    
+    private GestureDetector gd;
     private OnSingleTapListener singleTapListener;
 
 	public TapControlledMapView(Context context, AttributeSet attrs) {
@@ -25,14 +25,14 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
     }
 
     public TapControlledMapView(Context context, String apiKey) {
-        super(context, apiKey);
+        super(context);
         setupGestures();
     }
-    
+
     private void setupGestures() {
-    	gd = new GestureDetector(this);  
-        
-        //set the on Double tap listener  
+    	gd = new GestureDetector( getContext(), this);
+
+        //set the on Double tap listener
         gd.setOnDoubleTapListener(new OnDoubleTapListener() {
 
 			@Override
@@ -54,19 +54,19 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 			public boolean onDoubleTapEvent(MotionEvent e) {
 				return false;
 			}
-        	
+
         });
     }
-    
+
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		if (this.gd.onTouchEvent(ev)) {
+		if (gd.onTouchEvent(ev)) {
 			return true;
 		} else {
 			return super.onTouchEvent(ev);
 		}
 	}
-	
+
 	public void setOnSingleTapListener(OnSingleTapListener singleTapListener) {
 		this.singleTapListener = singleTapListener;
 	}
@@ -98,7 +98,7 @@ public class TapControlledMapView extends MapView implements OnGestureListener {
 			float velocityY) {
 		return false;
 	}
-    
+
 }
 
 
